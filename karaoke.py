@@ -14,24 +14,24 @@ from smallsmilhandler import SmallSMILHandler
 
 class KaraokeLocal(SmallSMILHandler):
 
-    def __init__(self, fichero):
+    def __init__(self):
         # Inicializo y construyo la lista
         parser = make_parser()  # Creo parser
         cHandler = SmallSMILHandler()  # Creo manejador
         parser.setContentHandler(cHandler)  # Le paso el parser al manejador
-        parser.parse(open(fichero))
+        parser.parse(open(sys.argv[1]))
         self.lista = cHandler.get_tags()
 
     def __str__(self):  
         # Recorro diccionario añadiendo un string y '\n'
-        stri = ""
-        for diccs in self.lista:
-            stri += str(diccs['name'])
-            for atributo in diccs:
-                if diccs[atributo] != "" and atributo != 'name':
-                    stri += '\t' + atributo + '="' + diccs[atributo] + '"'
-            stri += '\n'
-        return(stri)   
+        string = ''
+        for dic in self.lista:
+            string = string + dic['name']
+            for atributo in dic:
+                if dic[atributo] != "" and atributo != 'name':
+                    string = string + "\t" + atributo + '='
+                    string = string + dic[atributo] + '"' + "\n"
+        return(string)
 
     def to_json(self, fich, fich_json=None):
         # Creamos un fichero en formato json
@@ -56,13 +56,14 @@ if __name__ == "__main__":
     if len(sys.argv) != 2:
         sys.exit("Usage: python3 karaoke.py file.smil")
     try:
-        obj = KaraokeLocal(sys.argv[1])
+        obj = open(sys.argv[1])
     except (ValueError, IndexError, FileNotFoundError):
         sys.exit("Usage: python3 karaoke.py file.smil")
-
-    print(obj) 
+ 
+    obj = KaraokeLocal()
+    print(obj)
+    obj.__str__()
     obj.to_json(sys.argv[1])
     obj.do_local()
     obj.to_json(sys.argv[1], 'local.json')
     print(obj)
-
