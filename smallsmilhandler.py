@@ -14,9 +14,10 @@ class SmallSMILHandler(ContentHandler):
     def __init__(self):  # método para inicializar atributos
         self.lista = []  # lista vacía que se rellenará
         self.dicc = {'root-layout': ['width', 'height', 'background-color'],
-            'region': ['id', 'top', 'bottom', 'left', 'right'], 'img': ['src', 
-            'region', 'begin', 'dur'], 'audio': ['src', 'begin', 'dur'],
-            'textstream': ['src', 'region']}  # creo un diccionario
+            'region': ['id', 'top', 'bottom', 'left', 'right'],                       
+            'img': ['src', 'region', 'begin', 'dur'], 
+            'audio': ['src', 'begin', 'dur'], 'textstream': ['src', 'region']}  
+         # creo un diccionario
 
     def startElement(self, name, attrs):
         dict = {}
