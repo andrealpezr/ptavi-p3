@@ -14,7 +14,7 @@ from smallsmilhandler import SmallSMILHandler
 
 class KaraokeLocal(SmallSMILHandler):
 
-    def __init__(self,fichero):
+    def __init__(self, fichero):
         # Inicializo y construyo la lista
         parser = make_parser()  # Creo parser
         cHandler = SmallSMILHandler()  # Creo manejador
@@ -29,18 +29,16 @@ class KaraokeLocal(SmallSMILHandler):
             linea = linea + elem[0]
             atributos = elem[1].items()
             for nombre, valor in atributos:
-                if valor != '' :
+                if valor != '':
                     linea = linea + '\t' + nombre + '=' + '"' + valor + '"'
             print(linea)
-        
-        
+
     def to_json(self, fich, fich_json=None):
         # Creamos un fichero en formato json
         fich_json = json.dumps(self.lista)
         if fich_json is None:
             fich_json = fich.split('.')[0] + '.json'
             json.dump(self.lista, open(fich_json, 'w'))
-               
 
     def do_local(self):
         # Recorre la lista y descarga recursos remotos
@@ -51,7 +49,6 @@ class KaraokeLocal(SmallSMILHandler):
                         atrib_Nuevo = posi.split('/')[-1]
                         urlretrieve(posi, atrib_Nuevo)
                         print("Descargando %s ..." % posi)
-                
 
 if __name__ == "__main__":
 
@@ -61,7 +58,7 @@ if __name__ == "__main__":
         obj = open(sys.argv[1])
     except (ValueError, IndexError, FileNotFoundError):
         sys.exit("Usage: python3 karaoke.py file.smil")
- 
+
     fichero = sys.argv[1]
     fich_json = sys.argv[1].replace(".smil", ".json")
     obj = KaraokeLocal(fichero)
